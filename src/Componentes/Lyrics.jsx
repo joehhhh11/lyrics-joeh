@@ -11,11 +11,9 @@ import {
   Music,
   Backpack,
 } from "lucide-react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { songs } from "./songs";
 import TypewriterLine from "./TypewriterLine";
 import BackgroundAnimations from "./BackgroundAnimations";
-import PlayerControls from "./PlayerControls";
 import SpotifyMinimal from "./Spotify";
 export default function Lyrics() {
   const [isPlaying, setIsPlaying] = useState(false);

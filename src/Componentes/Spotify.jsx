@@ -142,7 +142,6 @@ export default function SpotifyMinimal({ onBack }) {
         </div>*/ }
       </motion.div>
 
-      {/* Letras centrales */}
       <AnimatePresence>
         {currentCaption && (
           <motion.div
