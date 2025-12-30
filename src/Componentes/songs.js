@@ -1,3 +1,4 @@
+
 export const songs = [
   {
     id: 3,
@@ -5,6 +6,7 @@ export const songs = [
     artist: "Cuco",
     url: "/media/meimportastu.mp3",
     lyrics: [
+      { time: 0, text: "[..]" },
       { time: 16.48, text: "Que se quede el infinito sin estrellas" },
       { time: 20.84, text: "O que pierda el ancho más su intensidad" },
       { time: 24.98, text: "Pero el negro de tus ojos que no muera" },
@@ -21,6 +23,33 @@ export const songs = [
       { time: 70.0, text: "Solamente tú, y tú, y tú." },
       { time: 73.64, text: "Me importas tú, y tú, y tú." },
       { time: 78.0, text: "Nadie más que tú." },
+    ],
+  },
+   {
+    id: 4,
+    title: "Rock That Body",
+    artist: "Black Eyed Peas",
+    url: "/media/rockbody.mp3",
+    lyrics: [
+      { time: 0, text: "[..]" },
+      { time: 5.0, text: "I wanna da -" },
+      { time: 5.90, text: "I wanna dance in the lights" },
+      { time: 9, text: "I wanna ro -" },
+      { time: 10.4, text: "I wanna rock your body" },
+      { time: 13.2, text: "I wanna go -" },
+      { time: 14, text: "I wanna go for a ride" },
+      { time: 16.82, text: "Hop in the music and" },
+      { time: 18.22, text: "Rock your body" },
+      { time: 20.58, text: "Rock that body" },
+      { time: 21.58, text: "come on, come on" },
+      { time: 22.58, text: "Rock that body" },
+
+      { time: 23.52, text: "ROCK YOUR BODY" },
+
+      { time: 24.22, text: "Rock that body" },
+      { time: 25.52, text: "come on, come on" },
+      { time: 26.52, text: "Rock that body" },
+
     ],
   },
   {

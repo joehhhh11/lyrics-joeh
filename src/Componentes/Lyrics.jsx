@@ -16,6 +16,7 @@ import { songs } from "./songs";
 import TypewriterLine from "./TypewriterLine";
 import BackgroundAnimations from "./BackgroundAnimations";
 import PlayerControls from "./PlayerControls";
+import SpotifyMinimal from "./Spotify";
 export default function Lyrics() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -23,8 +24,8 @@ export default function Lyrics() {
   const [volume, setVolume] = useState(70);
   const [currentLyricIndex, setCurrentLyricIndex] = useState(-1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentSong, setCurrentSong] = useState(songs[1]);
-
+  const [currentSong, setCurrentSong] = useState(songs[0]);
+  const [showSpotify, setShowSpotify] = useState(false);
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -115,13 +116,22 @@ export default function Lyrics() {
     return [currentSong.lyrics[currentLyricIndex - 1]];
   };
 
-  const selectSong = (song) => {
+const selectSong = (song) => {
+  if (song.id === 4) {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setShowSpotify(true);
+  } else {
+    setShowSpotify(false);
     setCurrentSong(song);
     setIsPlaying(false);
     setCurrentTime(0);
     setSidebarOpen(false);
-  };
-
+  }
+};
   const currentLyric =
     currentLyricIndex >= 0 ? currentSong.lyrics[currentLyricIndex] : null;
   const nextLyric =
@@ -129,7 +139,13 @@ export default function Lyrics() {
       ? currentSong.lyrics[currentLyricIndex + 1]
       : null;
   const previousLyrics = getPreviousLyrics();
-
+if (showSpotify) {
+  return <SpotifyMinimal onBack={() => {
+    setShowSpotify(false);
+    setIsPlaying(false);
+    setCurrentTime(0);
+  }} />;
+}
   return (
     <div className="min-h-screen flex">
       <audio ref={audioRef} src={currentSong.url} />
