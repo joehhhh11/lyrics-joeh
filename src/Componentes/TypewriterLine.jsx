@@ -15,7 +15,7 @@ export default function TypewriterLine({ text, isActive }) {
             delay: isActive ? i * 0.04 : 0,
             ease: "easeOut",
           }}
-          className="text-sipro text-[5.5rem]"
+          className="text-sipro text-[2.5rem] md:text-[5.5rem]"
         >
           {char}
         </motion.span>

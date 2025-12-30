@@ -315,7 +315,7 @@ export default function Lyrics() {
               </AnimatePresence>
             </div>
 
-            <div className="my-8 relative w-1/2 mx-auto">
+            <div className="my-8 relative w-3/4 mx-auto">
               <AnimatePresence mode="wait">
                 {currentTime >= 57 && currentTime < 64 ? (
                   <motion.div
