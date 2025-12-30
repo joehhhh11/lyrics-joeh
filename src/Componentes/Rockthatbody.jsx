@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
-export default function SpotifyMinimal({ onBack }) {
+export default function RockBody({ onBack }) {
   const [currentSong, setCurrentSong] = useState(null);
   const [captions, setCaptions] = useState([]);
   const [currentCaption, setCurrentCaption] = useState("");

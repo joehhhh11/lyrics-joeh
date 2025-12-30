@@ -14,7 +14,7 @@ import {
 import { songs } from "./songs";
 import TypewriterLine from "./TypewriterLine";
 import BackgroundAnimations from "./BackgroundAnimations";
-import SpotifyMinimal from "./Spotify";
+import RockBody from "./Rockthatbody";
 export default function Lyrics() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -138,7 +138,7 @@ const selectSong = (song) => {
       : null;
   const previousLyrics = getPreviousLyrics();
 if (showSpotify) {
-  return <SpotifyMinimal onBack={() => {
+  return <RockBody onBack={() => {
     setShowSpotify(false);
     setIsPlaying(false);
     setCurrentTime(0);
