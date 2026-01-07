@@ -9,12 +9,13 @@ import {
   Menu,
   X,
   Music,
-  Backpack,
+  Languages,
 } from "lucide-react";
 import { songs } from "./songs";
 import TypewriterLine from "./TypewriterLine";
 import BackgroundAnimations from "./BackgroundAnimations";
 import RockBody from "./Rockthatbody";
+
 export default function Lyrics() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -24,6 +25,7 @@ export default function Lyrics() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentSong, setCurrentSong] = useState(songs[0]);
   const [showSpotify, setShowSpotify] = useState(false);
+  const [language, setLanguage] = useState("original"); 
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -114,22 +116,30 @@ export default function Lyrics() {
     return [currentSong.lyrics[currentLyricIndex - 1]];
   };
 
-const selectSong = (song) => {
-  if (song.id === 4) {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
+  const selectSong = (song) => {
+    if (song.id === 4) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+      setIsPlaying(false);
+      setShowSpotify(true);
+    } else {
+      setShowSpotify(false);
+      setCurrentSong(song);
+      setIsPlaying(false);
+      setCurrentTime(0);
     }
-    setIsPlaying(false);
-    setShowSpotify(true);
-  } else {
-    setShowSpotify(false);
-    setCurrentSong(song);
-    setIsPlaying(false);
-    setCurrentTime(0);
-    setSidebarOpen(false);
-  }
-};
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === "original" ? "translation" : "original");
+  };
+
+  const getLyricText = (lyric) => {
+    return language === "original" ? lyric.text : (lyric.translation || lyric.text);
+  };
+
   const currentLyric =
     currentLyricIndex >= 0 ? currentSong.lyrics[currentLyricIndex] : null;
   const nextLyric =
@@ -137,15 +147,17 @@ const selectSong = (song) => {
       ? currentSong.lyrics[currentLyricIndex + 1]
       : null;
   const previousLyrics = getPreviousLyrics();
-if (showSpotify) {
-  return <RockBody onBack={() => {
-    setShowSpotify(false);
-    setIsPlaying(false);
-    setCurrentTime(0);
-  }} />;
-}
+
+  if (showSpotify) {
+    return <RockBody onBack={() => {
+      setShowSpotify(false);
+      setIsPlaying(false);
+      setCurrentTime(0);
+    }} />;
+  }
+
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex ">
       <audio ref={audioRef} src={currentSong.url} />
 
       <motion.button
@@ -194,7 +206,7 @@ if (showSpotify) {
                     }`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="bg-white/10 p-3 rounded-lg ">
+                      <div className="bg-white/10 p-3 rounded-lg">
                         <Music size={24} color="white" style={{ background: "transparent"}} />
                       </div>
                       <div className="flex-1">
@@ -208,7 +220,34 @@ if (showSpotify) {
                 ))}
               </div>
 
-              <div className="mt-12 p-6 bg-white/5 rounded-xl border border-white/10">
+              <div className="mt-8 p-6 bg-white/5 rounded-xl border border-white/10">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Languages size={20} className="text-gray-400" />
+                    <span className="text-white text-sm">
+                      {language === "original" ? "🇪🇸 Español/Inglés" : "🇹🇷 Türkçe"}
+                    </span>
+                  </div>
+                  <button
+                    onClick={toggleLanguage}
+                    className={`relative w-14 h-7 rounded-full transition-colors duration-300 ${
+                      language === "translation" 
+                        ? "bg-gradient-to-r from-purple-600 to-pink-600" 
+                        : "bg-gray-600"
+                    }`}
+                  >
+                    <motion.div
+                      className="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-md"
+                      animate={{
+                        x: language === "translation" ? 28 : 0,
+                      }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    />
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-6 p-6 bg-white/5 rounded-xl border border-white/10 mb-20">
                 <h3 className="text-white font-semibold mb-4">
                   Control de Volumen
                 </h3>
@@ -228,6 +267,7 @@ if (showSpotify) {
                   <span className="text-xs text-gray-400 w-8">{volume}</span>
                 </div>
               </div>
+
               <motion.div
                 className="w-full max-w-2xl bg-black/40 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-white/10"
                 initial={{ y: 100, opacity: 0 }}
@@ -268,7 +308,7 @@ if (showSpotify) {
                     onClick={handleSkipBack}
                     className="text-white/70 hover:text-white transition"
                   >
-                    <SkipBack size={24}  />
+                    <SkipBack size={24} />
                   </motion.button>
 
                   <motion.button
@@ -302,9 +342,10 @@ if (showSpotify) {
       <div className="flex-1 flex flex-col items-center justify-center p-8 overflow-hidden">
         <div className="flex-1 flex items-center justify-center w-full overflow-hidden">
           <div className="relative w-screen h-[500px] w flex flex-col items-center justify-center overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-32  to-transparent pointer-events-none z-10" />
+            <div className="absolute top-0 left-0 right-0 h-32 to-transparent pointer-events-none z-10" />
 
             <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-b from-transparent to-[#1E2125] pointer-events-none z-10" />
+            
             <div className="flex-1 flex flex-col justify-end items-center w-full overflow-hidden">
               <AnimatePresence>
                 {previousLyrics.map((lyric, index) => {
@@ -322,7 +363,7 @@ if (showSpotify) {
                       transition={{ duration: 0.6, ease: "easeInOut" }}
                       className="text-white text-xl md:text-[2.5rem] font-grand text-center mb-4 px-4"
                     >
-                      {lyric.text}
+                      {getLyricText(lyric)}
                     </motion.div>
                   );
                 })}
@@ -331,31 +372,16 @@ if (showSpotify) {
 
             <div className="my-8 relative w-3/4 mx-auto">
               <AnimatePresence mode="wait">
-                {currentTime >= 57 && currentTime < 64 ? (
+                {currentLyric ? (
                   <motion.div
-                    key="lottie"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 1 }}
-                  >
-                    <img
-                      src="https://media.tenor.com/GFqwZAEW8KQAAAAi/principessamusi
-                      cguitar.gif"
-                      alt="imagen sincronizada"
-                      className="w-full h-[30vh] object-contain  z-1"
-                    />
-                  </motion.div>
-                ) : currentLyric ? (
-                  <motion.div
-                    key={currentLyricIndex}
+                    key={`${currentLyricIndex}-${language}`}
                     initial={{ scale: 0.85, opacity: 0, y: 25 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.92, opacity: 0, y: -25 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                     className="text-white"
                   >
-                    <TypewriterLine text={currentLyric.text} isActive={true} />
+                    <TypewriterLine text={getLyricText(currentLyric)} isActive={true} />
                   </motion.div>
                 ) : (
                   <motion.div
@@ -368,6 +394,7 @@ if (showSpotify) {
                 )}
               </AnimatePresence>
             </div>
+
             <motion.div
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
@@ -377,11 +404,12 @@ if (showSpotify) {
                 <BackgroundAnimations />
               </div>
             </motion.div>
+
             <div className="flex-1 flex flex-col justify-start items-center w-full">
               <AnimatePresence>
                 {nextLyric && (
                   <motion.div
-                    key={`next-${currentLyricIndex + 1}`}
+                    key={`next-${currentLyricIndex + 1}-${language}`}
                     layout
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.35 }}
@@ -393,7 +421,7 @@ if (showSpotify) {
                     }}
                     className="text-white text-2xl md:text-[2.5rem] font-grand text-center mt-4 px-4"
                   >
-                    {nextLyric.text}
+                    {getLyricText(nextLyric)}
                   </motion.div>
                 )}
               </AnimatePresence>
